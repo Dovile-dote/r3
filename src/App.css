@@ -94,3 +94,7 @@ button:hover {
   align-items: center;
   justify-content: center;
 }
+
+fieldset {
+  margin: 20px;
+}
