@@ -18,7 +18,17 @@ function App() {
     }
 
     const go = id => {
-        setAvys(a => a.map(avis => avis.id === id ? {...avis, where: 'kirpykla'} : avis))
+        // setAvys(a => a.map(avis => avis.id === id ? {...avis, where: 'kirpykla'} : avis))
+    
+   
+    setAvys(a => {
+         // issiimam avi
+        const avele = a.filter(av => av.id === id)[0];
+        avele.where = 'kirpykla';
+        const kitos = a.filter(av => av.id !== id);
+        return [...kitos, avele];
+
+    });
     }
 
     return (
