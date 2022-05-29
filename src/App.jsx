@@ -10,20 +10,45 @@ import rand from './Functions/rand';
 
 function App() {
   const [avis, setAvis] = useState(null);
+  const [sunys, setSunys] = useState(null);
+  const [kates, setKates] = useState(null);
   const [karve, setKarve] = useState(null);
 
   const addAnimals = () => {
-    for (let i = 0; i <= rand(5, 20); i++) {
+    let gyvulioNr = 0;
+    for (let i = 0; i <= rand(1, 5); i++) {
+      gyvulioNr = '' + rand(0, 9999);
+      const suo = {
+        id: rand(0, 9999),
+        nr: gyvulioNr.padStart(6, 0),
+        style: 'avis',
+        color: 'blue',
+        where: 'sunide',
+      };
+      setSunys((k) => [...k, suo]);
+    }
+
+    for (let i = 0; i <= rand(1, 5); i++) {
+      gyvulioNr = '' + rand(0, 9999);
+      const kate = {
+        id: rand(0, 9999),
+        nr: gyvulioNr.padStart(6, 0),
+        style: 'karve',
+        color: 'red',
+        where: 'katide',
+      };
+      setKates((k) => [...k, kate]);
+    }
+
+    for (let i = 0; i <= rand(1, 5); i++) {
       setAvis((k) => [...k, ['A' + rand(0, 9999999), 'avis']]);
     }
-    for (let i = 0; i <= rand(5, 20); i++) {
+    for (let i = 0; i <= rand(1, 5); i++) {
       setKarve((k) => [...k, ['K' + rand(0, 9999999), 'karve']]);
     }
   };
 
   const migracija = () => {
-    // console.log(avis);
-    // console.log(avis.indexOf(avis.key));
     setKarve((k) => [...k, avis[0]]);
     setAvis((k) => k.slice(1));
   };
@@ -36,6 +61,8 @@ function App() {
   const remAnimals = () => {
     setAvis((k) => k.slice(-1, k.length - 1));
     setKarve((k) => k.slice(-1, k.length - 1));
+    setSunys([]);
+    setKates([]);
   };
 
   useEffect(() => {
@@ -47,11 +74,33 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setSunys(JSON.parse(localStorage.getItem('sunys') ?? '[]'));
+  }, []);
+
+  useEffect(() => {
+    setKates(JSON.parse(localStorage.getItem('kates') ?? '[]'));
+  }, []);
+
+  useEffect(() => {
     if (null === avis) {
       return;
     }
     localStorage.setItem('avis', JSON.stringify(avis));
   }, [avis]);
+
+  useEffect(() => {
+    if (null === sunys) {
+      return;
+    }
+    localStorage.setItem('sunys', JSON.stringify(sunys));
+  }, [sunys]);
+
+  useEffect(() => {
+    if (null === kates) {
+      return;
+    }
+    localStorage.setItem('kates', JSON.stringify(kates));
+  }, [kates]);
 
   useEffect(() => {
     if (null === karve) {
@@ -79,13 +128,46 @@ function App() {
           </div>
 
           <div className="karves">
-            {/* <button onClick={addKarve}>ADD [2]</button> */}
             <h2>Karves</h2>
             <div className="flex">
               {karve
                 ? karve.map((c, i) => (
                     <div className={c[1]} key={i} onClick={migracija2}>
                       {c[0]}
+                    </div>
+                  ))
+                : null}
+            </div>
+          </div>
+        </div>
+        <div className="ganykla">
+          <div className="avys">
+            <h2>Sunys</h2>
+            <div className="flex">
+              {sunys
+                ? sunys.map((av, i) => (
+                    <div
+                      className={av.style}
+                      style={{ color: av.color }}
+                      key={i}
+                    >
+                      A{av.nr}
+                    </div>
+                  ))
+                : null}
+            </div>
+          </div>
+          <div className="avys">
+            <h2>Kates</h2>
+            <div className="flex">
+              {kates
+                ? kates.map((av, i) => (
+                    <div
+                      className={av.style}
+                      style={{ color: av.color }}
+                      key={i}
+                    >
+                      K{av.nr}
                     </div>
                   ))
                 : null}
