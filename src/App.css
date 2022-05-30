@@ -85,10 +85,32 @@ button:hover {
   justify-content: center;
 }
 
+.kate {
+  width: 150px;
+  height: 150px;
+  border: 2px solid white;
+  background-color: #61dafb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .karve {
   width: 150px;
   height: 150px;
   border: 2px solid grey;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suo {
+  width: 150px;
+  height: 150px;
+  border: 2px solid grey;
+  background-color: bisque;
   border-radius: 4px;
   display: flex;
   align-items: center;

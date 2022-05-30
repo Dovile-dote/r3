@@ -20,8 +20,8 @@ function App() {
       gyvulioNr = '' + rand(0, 9999);
       const suo = {
         id: rand(0, 9999),
-        nr: gyvulioNr.padStart(6, 0),
-        style: 'avis',
+        nr: 'DOG' + gyvulioNr.padStart(6, 0),
+        style: 'kate',
         color: 'blue',
         where: 'sunide',
       };
@@ -32,8 +32,8 @@ function App() {
       gyvulioNr = '' + rand(0, 9999);
       const kate = {
         id: rand(0, 9999),
-        nr: gyvulioNr.padStart(6, 0),
-        style: 'karve',
+        nr: 'CAT' + gyvulioNr.padStart(6, 0),
+        style: 'suo',
         color: 'red',
         where: 'katide',
       };
@@ -46,6 +46,39 @@ function App() {
     for (let i = 0; i <= rand(1, 5); i++) {
       setKarve((k) => [...k, ['K' + rand(0, 9999999), 'karve']]);
     }
+  };
+
+  const go = (id) => {
+    const copyDogs = [...sunys];
+    const copyCats = [...kates];
+
+    const dog = copyDogs.filter((av) => av.id === id)[0];
+    const kiti = copyDogs.filter((av) => av.id !== id);
+
+    copyCats.push(dog);
+
+    setKates(copyCats);
+    setSunys(kiti);
+  };
+
+  // const go = (id) => {
+  //   setSunys((a) => {
+  //     const dog = a.filter((av) => av.id === id)[0];
+  //     dog.where = 'katide';
+  //     setKates((k) => [...k, dog]);
+  //     const kiti = a.filter((av) => av.id !== id);
+  //     return [...kiti];
+  //   });
+  // };
+
+  const go2 = (id) => {
+    setKates((a) => {
+      const cat = a.filter((av) => av.id === id)[0];
+      cat.where = 'sunide';
+      setSunys((k) => [...k, cat]);
+      const kiti = a.filter((av) => av.id !== id);
+      return [...kiti];
+    });
   };
 
   const migracija = () => {
@@ -145,15 +178,18 @@ function App() {
             <h2>Sunys</h2>
             <div className="flex">
               {sunys
-                ? sunys.map((av, i) => (
-                    <div
-                      className={av.style}
-                      style={{ color: av.color }}
-                      key={i}
-                    >
-                      A{av.nr}
-                    </div>
-                  ))
+                ? sunys
+                    .filter((a) => a.where === 'sunide')
+                    .map((av) => (
+                      <div
+                        onClick={() => go(av.id)}
+                        className={av.style}
+                        style={{ color: av.color }}
+                        key={av.id}
+                      >
+                        {av.nr}
+                      </div>
+                    ))
                 : null}
             </div>
           </div>
@@ -161,13 +197,14 @@ function App() {
             <h2>Kates</h2>
             <div className="flex">
               {kates
-                ? kates.map((av, i) => (
+                ? kates.map((av) => (
                     <div
+                      onClick={() => go2(av.id)}
                       className={av.style}
                       style={{ color: av.color }}
-                      key={i}
+                      key={av.id}
                     >
-                      K{av.nr}
+                      {av.nr}
                     </div>
                   ))
                 : null}
